@@ -127,3 +127,16 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+REST_FRAMEWORK = {
+    # Using ScopedRateThrottle by default for any view that has a scope.
+    'DEFAULT_THROTTLE_CLASSES':[
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+
+    # Central Control Panel for all API Limits!
+    'DEFAULT_THROTTLE_RATES': {
+    'portfolio_views': '1000/day',
+    'playground_echo': '5/min',
+    }
+}

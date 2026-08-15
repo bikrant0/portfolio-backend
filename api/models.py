@@ -33,3 +33,21 @@ class PortfolioProject(models.Model):
 
     class Meta:
         ordering = ['created_at']
+
+class ApiPlaygroundLog(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    endpoint = models.CharField(max_length=100, default="/api/v1/playground/echo/")
+    method = models.CharField(max_length=10, default="POST")
+    latency_ms = models.IntegerField(help_text="Response time in milliseconds")
+    response_status = models.IntegerField(default=200)
+    
+    # hasing IP for privacy
+    ip_hash = models.CharField(max_length=256)
+    user_agent = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Echo Request - {self.latency_ms}ms at {self.timestamp}"
+        
+    class Meta:
+        ordering = ['-timestamp']
