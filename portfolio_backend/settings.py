@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -138,5 +139,16 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
     'portfolio_views': '1000/day',
     'playground_echo': '5/min',
-    }
+    },
+
+    # Using drf-spectacular for schema generation
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE' : 'Portfolio Backend API',
+    'DESCRIPTION' : 'A production-grade REST API showcasing backend engineering skills, including rate-limited interactive endpoints and dynamic routing.',
+    'VERSION' : '1.0.0',
+    'SERVE_INCLUDE_SCHEMA' : False,
+    # 'CONTACT' : {'name':'Bikrant Shilpakar'}
 }
