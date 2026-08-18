@@ -22,6 +22,7 @@ A production-ready, decoupled RESTful API built to power a developer portfolio. 
 * **Privacy-First Logging:** Tracks API request latency and telemetry while securely hashing user IP addresses to comply with privacy standards.
 * **Advanced Rate Limiting:** Implements `ScopedRateThrottle` to provide generous read-limits for standard portfolio viewing while strictly throttling the interactive playground to prevent DDoS attacks.
 * **Slug-Based Routing:** Utilizes dynamic URL slugs for SEO-friendly frontend routing.
+* **Automated API Documentation:** Integrates `drf-spectacular` to generate a live, interactive OpenAPI 3.0 schema and Swagger UI for seamless developer onboarding and endpoint testing.
 
 ## API Endpoints
 
@@ -31,6 +32,8 @@ A production-ready, decoupled RESTful API built to power a developer portfolio. 
 | `GET` | `/api/v1/projects/` | Retrieves a list of all published projects. | Public (Throttled) |
 | `GET` | `/api/v1/projects/<slug>/` | Retrieves deep architectural details of a single project. | Public (Throttled) |
 | `POST` | `/api/v1/playground/echo/` | Calculates server latency and echoes the JSON payload. | Public (Strictly Throttled) |
+| `GET` | `/api/schema/` | Raw OpenAPI 3.0 YAML/JSON schema file. | Public |
+| `GET` | `/api/docs/` | Interactive Swagger UI documentation. | Public |
 
 ## Local Setup Instructions
 
