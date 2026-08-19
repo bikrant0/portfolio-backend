@@ -29,11 +29,12 @@ A production-ready, decoupled RESTful API built to power a developer portfolio. 
 | Method | Endpoint | Description | Access |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/v1/health/` | Server heartbeat and ISO-8601 timestamp. | Public |
-| `GET` | `/api/v1/projects/` | Retrieves a list of all published projects. | Public (Throttled) |
+| `GET` | `/api/v1/projects/` | Retrieves a paginated list of published projects. Supports `?search=` and filtering. | Public (Throttled) |
 | `GET` | `/api/v1/projects/<slug>/` | Retrieves deep architectural details of a single project. | Public (Throttled) |
 | `POST` | `/api/v1/playground/echo/` | Calculates server latency and echoes the JSON payload. | Public (Strictly Throttled) |
 | `GET` | `/api/schema/` | Raw OpenAPI 3.0 YAML/JSON schema file. | Public |
 | `GET` | `/api/docs/` | Interactive Swagger UI documentation. | Public |
+
 
 ## Local Setup Instructions
 
