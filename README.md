@@ -1,7 +1,7 @@
 # Portfolio Backend API & Interactive Showcase
 
 **Live Demo:** [Please Wait !!!!!]
-### Have some patience for this.. 
+### Have some patience for this 
 ---
 
 ## Project Overview

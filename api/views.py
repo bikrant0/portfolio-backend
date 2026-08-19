@@ -8,7 +8,8 @@ from rest_framework.throttling import AnonRateThrottle
 from datetime import datetime
 from .serializers import PortfolioProjectSerializer, EchoPayloadSerializer
 from .models import PortfolioProject, ApiPlaygroundLog
-from rest_framework import generics
+from rest_framework import generics, filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -26,6 +27,13 @@ def health_check(request):
 class ProjectListAPIView(generics.ListAPIView):
 
     serializer_class = PortfolioProjectSerializer
+    throttle_scope = 'portfolio_views'
+
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+    search_fields = ['title','description', 'tech_stacks__name']
+
+    filterset_fields = ['is_published']
 
     def get_queryset(self):
         return PortfolioProject.objects.filter(is_published=True)    
