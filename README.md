@@ -23,6 +23,7 @@ A production-ready, decoupled RESTful API built to power a developer portfolio. 
 * **Advanced Rate Limiting:** Implements `ScopedRateThrottle` to provide generous read-limits for standard portfolio viewing while strictly throttling the interactive playground to prevent DDoS attacks.
 * **Slug-Based Routing:** Utilizes dynamic URL slugs for SEO-friendly frontend routing.
 * **Automated API Documentation:** Integrates `drf-spectacular` to generate a live, interactive OpenAPI 3.0 schema and Swagger UI for seamless developer onboarding and endpoint testing.
+* **Advanced Querying & Pagination:** Protects server memory using global pagination and allows clients to seamlessly filter datasets and perform relational text-based searches using `django-filter` and DRF `SearchFilter`.
 
 ## API Endpoints
 

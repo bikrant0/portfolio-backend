@@ -36,7 +36,7 @@ class ProjectListAPIView(generics.ListAPIView):
     filterset_fields = ['is_published']
 
     def get_queryset(self):
-        return PortfolioProject.objects.filter(is_published=True)    
+        return PortfolioProject.objects.filter(is_published=True).prefetch_related('tech_stacks')  
 
 class ProjectDetailAPIView(generics.RetrieveAPIView):
 
@@ -44,7 +44,7 @@ class ProjectDetailAPIView(generics.RetrieveAPIView):
     lookup_field = 'slug'
 
     def get_queryset(self):
-        return PortfolioProject.objects.filter(is_published=True)    
+        return PortfolioProject.objects.filter(is_published=True).prefetch_related('tech_stacks')      
 
 class EchoPlaygroundAPIView(APIView):
     # Receives a Json payload, calculate latency and logs it and echoes it back.
