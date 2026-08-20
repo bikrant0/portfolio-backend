@@ -46,6 +46,21 @@ class ProjectListPublishedFilterTest(APITestCase):
         self.assertIn('published-projects', slugs)
         self.assertNotIn('unpublished-projects', slugs)
 
+    def test_search_matches_title(self):
+        response = self.client.get('/api/v1/projects/', {'search':'Published'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['count'] ,1)
+
+    def test_pagination_page_size_and_next_link(self):
+        response = self.client.get('/api/v1/projects/')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data['results']), 5)
+
+        self.assertIsNotNone(response.data['next'])
+
+
+
 class ProjectDetailTest(APITestCase):
     def setUp(self):
         self.project = PortfolioProject.objects.create(
@@ -62,5 +77,6 @@ class ProjectDetailTest(APITestCase):
         self.assertEqual(response.data['title'], "Detail Project")
 
     def test_invalid_slug_returns_404(self):
-        response = self.client.get('/api/v1/projects/this-fake-slug-does-bot-exist/')
-        self.assertEqual(response.status_code, 404)
+        response = self.client.get(f'/api/v1/projects/this-fake-slug-does-bot-exist/')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
