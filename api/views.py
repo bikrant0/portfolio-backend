@@ -48,7 +48,6 @@ class ProjectDetailAPIView(generics.RetrieveAPIView):
 
 class EchoPlaygroundAPIView(APIView):
     # Receives a Json payload, calculate latency and logs it and echoes it back.
-    throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'playground_echo'
 
     def post(self, request, *args, **kwargs):
