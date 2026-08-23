@@ -1,9 +1,13 @@
+import pstats
+
 from rest_framework.test import APITestCase
 from .models import PortfolioProject
 from django.test.utils import CaptureQueriesContext
 from django.db import connection
 from .models import TechStack
-
+from django.test import override_settings
+from django.core.cache import cache
+from .models import ApiPlaygroundLog
 
 # Create your tests here.
 class HealthCheckTest(APITestCase):
@@ -110,4 +114,39 @@ class QueryCountTest(APITestCase):
             with self.assertNumQueries(3):
                 self.client.get('/api/v1/projects/')
 
+# Testing Throttling
+class ApiPlaygroundTest(APITestCase):
+    def tearDown(self):
+        cache.clear()
 
+    def  test_valid_api_playground(self):
+        response = self.client.post('/api/v1/playground/echo/', {'message': 'test1'}, format='json')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data.get('received_message'),'test1')
+
+
+    def test_invalide_post_returns_400(self):
+        response = self.client.post('/api/v1/playground/echo/', {}, format = 'json')
+
+        self.assertEqual(response.status_code, 400)
+
+
+    def test_logs_request_to_database(self):
+        
+        self.client.post('/api/v1/playground/echo/', {'message': 'hi'}, format='json')
+        self.assertEqual(ApiPlaygroundLog.objects.count(), 1)
+        log = ApiPlaygroundLog.objects.first()
+        self.assertIsNotNone(log.ip_hash)
+        self.assertGreaterEqual(log.latency_ms, 0)
+
+class PlaygroundThrottleTest(APITestCase):
+    def setUp(self):
+        cache.clear()  # throttle counts persist in cache across tests
+    def test_exceeds_rate_limit_returns_429(self):
+        for _ in range(5):  # matches settings.py: 'playground_echo': '5/min'
+            response = self.client.post('/api/v1/playground/echo/', {'message': 'hi'}, format='json')
+            self.assertEqual(response.status_code, 200)
+
+        sixth = self.client.post('/api/v1/playground/echo/', {'message': 'hi'}, format='json')
+        self.assertEqual(sixth.status_code, 429)

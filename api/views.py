@@ -4,7 +4,7 @@ from django.shortcuts import render
 from rest_framework.decorators import APIView, api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.throttling import AnonRateThrottle
+from rest_framework.throttling import ScopedRateThrottle
 from datetime import datetime
 from .serializers import PortfolioProjectSerializer, EchoPayloadSerializer
 from .models import PortfolioProject, ApiPlaygroundLog
@@ -48,7 +48,7 @@ class ProjectDetailAPIView(generics.RetrieveAPIView):
 
 class EchoPlaygroundAPIView(APIView):
     # Receives a Json payload, calculate latency and logs it and echoes it back.
-
+    throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'playground_echo'
 
     def post(self, request, *args, **kwargs):
