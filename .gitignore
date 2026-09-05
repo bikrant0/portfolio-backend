@@ -15,6 +15,7 @@ env/
 Thumbs.db
 interview.md
 
+staticfiles/
 midpoints/
 learning/
 docs/
