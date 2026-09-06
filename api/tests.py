@@ -147,3 +147,15 @@ class PlaygroundThrottleTest(APITestCase):
 
         sixth = self.client.post('/api/v1/playground/echo/', {'message': 'hi'}, format='json')
         self.assertEqual(sixth.status_code, 429)
+
+
+class CorsHeadersTest(APITestCase):
+    def test_allowed_origin_receives_cors_header(self):
+        response = self.client.get('/api/v1/health/', HTTP_ORIGIN='http://locahost:5500')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get('Access-Control-Allow-Origin'), 'http://localhost:5500')
+
+    def test_disallowed_origin_omits_cors_headers(self):
+        response = self.client.get('/api/v1/health/', HTTP_ORIGIN='http://unauthorized-domain.com')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.has_header('Access-Control-Allow-Origin'))
