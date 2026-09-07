@@ -159,3 +159,13 @@ class CorsHeadersTest(APITestCase):
         response = self.client.get('/api/v1/health/', HTTP_ORIGIN='http://unauthorized-domain.com')
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.has_header('Access-Control-Allow-Origin'))
+
+
+class ErrorResponseTest(APITestCase):
+    def test_404_returns_frontend_friendly_json(self):
+        response = self.client.get('/api/v1/projects/this-slug-does-not-exist/')
+        self.assertEqual(response.status_code, 404)
+
+        self.assertEqual(response['Content-Type'],'application/json')
+
+        self.assertIn('detail', response.json())
