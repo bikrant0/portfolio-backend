@@ -151,7 +151,7 @@ class PlaygroundThrottleTest(APITestCase):
 
 class CorsHeadersTest(APITestCase):
     def test_allowed_origin_receives_cors_header(self):
-        response = self.client.get('/api/v1/health/', HTTP_ORIGIN='http://locahost:5500')
+        response = self.client.get('/api/v1/health/', HTTP_ORIGIN='http://localhost:5500')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get('Access-Control-Allow-Origin'), 'http://localhost:5500')
 
