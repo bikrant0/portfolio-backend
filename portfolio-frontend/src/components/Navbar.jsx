@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { fetchHealth } from '../services/api';
 import './Navbar.css';
 
 export default function Navabar(){
@@ -28,14 +29,16 @@ export default function Navabar(){
 
     return(
         <nav className="navbar">
+            <div className="navbar-brand">PORTFOLIO</div>
             <div className="nav-links">
                 <span>Home</span>
                 <span>Projects</span>
+                <span style={{ cursor: 'pointer' }}>Playground</span>
             </div>
             <div className="live-ledger">
                 <span className={'status-dot ${healthStatus}'}>●</span>
                 <span className="ledger-text">
-                    {healthStatus === 'healthy' ? `200 ● ${latency}ms` : 'System Offline'}
+                    { healthStatus === 'healthy' ? `200 ● ${latency}ms` : 'Offline'}
                 </span>
             </div>
         </nav>
